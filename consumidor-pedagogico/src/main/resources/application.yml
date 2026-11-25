@@ -1,0 +1,33 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: pedagogico
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  datasource:
+    # Banco H2 em arquivo (./data). AUTO_SERVER permite que mais de um processo use o mesmo arquivo
+    # (necessario para as duas instancias de Indicadores compartilharem contadores e idempotencia).
+    url: jdbc:h2:file:./data/pedagogico;AUTO_SERVER=TRUE
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+    listener:
+      simple:
+        # ack manual: a confirmacao so e enviada apos o efeito ser gravado com sucesso
+        acknowledge-mode: manual
+        # prefetch 1: cada instancia recebe uma mensagem por vez (distribuicao justa entre instancias)
+        prefetch: 1
+        default-requeue-rejected: false
+
+app:
+  instancia: ${spring.application.name}-${server.port}

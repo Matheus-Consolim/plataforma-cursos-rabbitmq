@@ -1,0 +1,14 @@
+{
+  "idEvento": "3f6b8c2e-7a41-4d0f-9e55-1c2b3a4d5e6f",
+  "tipo": "curso.concluido",
+  "versao": 1,
+  "ocorridoEm": "2026-11-25T13:00:00Z",
+  "origem": "plataforma-produtor",
+  "dados": {
+    "alunoId": "A-1001",
+    "alunoNome": "Ana Souza",
+    "cursoId": "C-RMQ",
+    "cursoNome": "Mensageria com RabbitMQ",
+    "cargaHoraria": 20
+  }
+}

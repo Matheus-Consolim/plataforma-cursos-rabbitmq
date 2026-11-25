@@ -1,0 +1,12 @@
+target/
+data/
+logs/
+*.log
+*.pid
+erl_crash.dump
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/

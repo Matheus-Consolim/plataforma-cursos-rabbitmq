@@ -1,0 +1,18 @@
+# Alternativa com Docker: sobe o RabbitMQ com o painel de gerenciamento e a topologia ja carregada.
+#   docker compose up -d
+# Painel: http://localhost:15672  (guest / guest)
+services:
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: plataforma-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

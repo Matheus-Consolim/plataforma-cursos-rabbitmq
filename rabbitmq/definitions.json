@@ -1,0 +1,46 @@
+{
+  "rabbit_version": "4.0.5",
+  "users": [
+    { "name": "guest", "password_hash": "kI3GCrswBLNZQzHJJ95QLoyfAVooYhnvf7jbqiW9BjOYUloe",
+      "hashing_algorithm": "rabbit_password_hashing_sha256", "tags": ["administrator"] }
+  ],
+  "vhosts": [ { "name": "/" } ],
+  "permissions": [
+    { "user": "guest", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" }
+  ],
+  "exchanges": [
+    { "name": "plataforma.eventos", "vhost": "/", "type": "topic", "durable": true, "auto_delete": false, "internal": false, "arguments": {} },
+    { "name": "plataforma.eventos.dlx", "vhost": "/", "type": "direct", "durable": true, "auto_delete": false, "internal": false, "arguments": {} }
+  ],
+  "queues": [
+    { "name": "plataforma.certificacao", "vhost": "/", "durable": true, "auto_delete": false,
+      "arguments": { "x-dead-letter-exchange": "plataforma.eventos.dlx", "x-dead-letter-routing-key": "plataforma.certificacao" } },
+    { "name": "plataforma.comunicacao", "vhost": "/", "durable": true, "auto_delete": false,
+      "arguments": { "x-dead-letter-exchange": "plataforma.eventos.dlx", "x-dead-letter-routing-key": "plataforma.comunicacao" } },
+    { "name": "plataforma.pedagogico", "vhost": "/", "durable": true, "auto_delete": false,
+      "arguments": { "x-dead-letter-exchange": "plataforma.eventos.dlx", "x-dead-letter-routing-key": "plataforma.pedagogico" } },
+    { "name": "plataforma.auditoria", "vhost": "/", "durable": true, "auto_delete": false,
+      "arguments": { "x-dead-letter-exchange": "plataforma.eventos.dlx", "x-dead-letter-routing-key": "plataforma.auditoria" } },
+    { "name": "plataforma.indicadores", "vhost": "/", "durable": true, "auto_delete": false,
+      "arguments": { "x-dead-letter-exchange": "plataforma.eventos.dlx", "x-dead-letter-routing-key": "plataforma.indicadores" } },
+    { "name": "plataforma.certificacao.dlq", "vhost": "/", "durable": true, "auto_delete": false, "arguments": {} },
+    { "name": "plataforma.comunicacao.dlq", "vhost": "/", "durable": true, "auto_delete": false, "arguments": {} },
+    { "name": "plataforma.pedagogico.dlq", "vhost": "/", "durable": true, "auto_delete": false, "arguments": {} },
+    { "name": "plataforma.auditoria.dlq", "vhost": "/", "durable": true, "auto_delete": false, "arguments": {} },
+    { "name": "plataforma.indicadores.dlq", "vhost": "/", "durable": true, "auto_delete": false, "arguments": {} }
+  ],
+  "bindings": [
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.certificacao", "destination_type": "queue", "routing_key": "curso.concluido", "arguments": {} },
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.comunicacao", "destination_type": "queue", "routing_key": "curso.concluido", "arguments": {} },
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.comunicacao", "destination_type": "queue", "routing_key": "curso.abandonado", "arguments": {} },
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.comunicacao", "destination_type": "queue", "routing_key": "avaliacao.revisada", "arguments": {} },
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.pedagogico", "destination_type": "queue", "routing_key": "avaliacao.#", "arguments": {} },
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.auditoria", "destination_type": "queue", "routing_key": "#", "arguments": {} },
+    { "source": "plataforma.eventos", "vhost": "/", "destination": "plataforma.indicadores", "destination_type": "queue", "routing_key": "curso.concluido", "arguments": {} },
+    { "source": "plataforma.eventos.dlx", "vhost": "/", "destination": "plataforma.certificacao.dlq", "destination_type": "queue", "routing_key": "plataforma.certificacao", "arguments": {} },
+    { "source": "plataforma.eventos.dlx", "vhost": "/", "destination": "plataforma.comunicacao.dlq", "destination_type": "queue", "routing_key": "plataforma.comunicacao", "arguments": {} },
+    { "source": "plataforma.eventos.dlx", "vhost": "/", "destination": "plataforma.pedagogico.dlq", "destination_type": "queue", "routing_key": "plataforma.pedagogico", "arguments": {} },
+    { "source": "plataforma.eventos.dlx", "vhost": "/", "destination": "plataforma.auditoria.dlq", "destination_type": "queue", "routing_key": "plataforma.auditoria", "arguments": {} },
+    { "source": "plataforma.eventos.dlx", "vhost": "/", "destination": "plataforma.indicadores.dlq", "destination_type": "queue", "routing_key": "plataforma.indicadores", "arguments": {} }
+  ]
+}
